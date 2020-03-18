@@ -7,8 +7,8 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return "Hello, Flask!"
+@app.route("/mission/<id>")
 
-@app.route("/hello/<name>")
 def hello_there(name):
     now = datetime.now()
     formatted_now = now.strftime("%A, %d %B, %Y at %X")
