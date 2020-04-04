@@ -1,25 +1,24 @@
-import json
 from datetime import datetime
 
-from flask import current_app as app, request
+from flask import current_app as app, request, jsonify
 
 from application import db
 from application.exceptions import ApiException, Reason
 from application.models import Mission
+from application.models.mission import mission_schema, missions_schema
 
 
 @app.route('/missions', methods=['GET'])
 def get_all_missions():
     missions = Mission.query.all()
-    missions_json = [mission.to_json() for mission in missions]
-    return json.dumps(missions_json)
+    return jsonify(missions_schema.dump(missions))
 
 
 @app.route('/missions/<mission_id>', methods=['GET'])
 def get_mission(mission_id):
     mission = Mission.query.get(mission_id)
     if mission:
-        return mission.to_json()
+        return jsonify(mission_schema.dump(mission))
     raise ApiException(
         reason=Reason.NOT_FOUND,
         message='Not found!',
@@ -52,7 +51,7 @@ def update_mission(mission_id):
             }
         )
         db.session.commit()
-        return mission.to_json()
+        return jsonify(mission_schema.dump(mission))
 
     new_mission = request.json
     mission = Mission(
@@ -65,7 +64,7 @@ def update_mission(mission_id):
     )
     db.session.add(mission)
     db.session.commit()
-    return mission.to_json()
+    return jsonify(mission_schema.dump(mission))
 
 
 @app.route('/missions/<mission_id>', methods=['DELETE'])
@@ -74,7 +73,7 @@ def delete_mission(mission_id):
     if mission:
         db.session.delete(mission)
         db.session.commit()
-        return mission.to_json()
+        return jsonify(mission_schema.dump(mission))
     raise ApiException(
         reason=Reason.NOT_FOUND,
         message='Not found!',

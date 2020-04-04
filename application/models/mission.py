@@ -1,5 +1,6 @@
 from application.models.base import BaseModel
 from .. import db
+from .. import ma
 
 
 class Mission(BaseModel):
@@ -8,7 +9,11 @@ class Mission(BaseModel):
     timeStamp = db.Column(db.DateTime)
     spots = db.relationship('Spot', backref='mission', lazy=True)
 
-    def to_string(self):
-        return 'Mission: {id}, {parcSection}, {timeStamp}'.format(
-            id=self.id, parcSection=self.parcSection, timeStamp=self.timeStamp
-        )
+
+class MissionSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'created_at', 'created_by', 'update_at', 'updated_by', 'userId', 'parcSection', 'timeStamp')
+
+
+mission_schema = MissionSchema()
+missions_schema = MissionSchema(many=True)
