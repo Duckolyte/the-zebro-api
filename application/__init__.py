@@ -2,6 +2,8 @@ from flask import Flask
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 
+from application.utils.setup_db import setup_db
+
 db = SQLAlchemy()
 ma = Marshmallow()
 
@@ -17,8 +19,12 @@ def create_app():
         # Imports
         from application.routes import errors, missions
 
-        # Create tables for our models
+        # Reset tables.
         db.drop_all()
         db.create_all()
+
+        # Seed random data into tables.
+        # seeder = FlaskSeeder()
+        # seeder.init_app(app, db)
 
         return app
