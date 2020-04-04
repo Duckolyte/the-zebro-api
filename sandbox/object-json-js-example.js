@@ -1,14 +1,10 @@
 const test0 = {
     "id": "1",
-    "parcSection": 
-        {
-            
-        },
-    "date": 
-        {
-            
-        },
-    "observationActions": 
+    "parcSection":
+        {},
+    "date":
+        {},
+    "observationActions":
         [
             {
                 "id": "22"
@@ -22,19 +18,13 @@ const test0 = {
 }
 
 
-
-
 const test1 = {
     "id": "1",
-    "parcSection": 
-        {
-            
-        },
-    "date": 
-        {
-            
-        },
-    "observationActions": 
+    "parcSection":
+        {},
+    "date":
+        {},
+    "observationActions":
         [
             {
                 "id": "22"
@@ -49,15 +39,11 @@ const test1 = {
 
 const test2 = {
     "id": "1",
-    "parcSection": 
-        {
-            
-        },
-    "date": 
-        {
-            
-        },
-    "observationActions": 
+    "parcSection":
+        {},
+    "date":
+        {},
+    "observationActions":
         [
             {
                 "id": "22",
@@ -72,9 +58,10 @@ const test2 = {
 }
 
 
-
 const arrayTest = [test0, test1, test2];
 
 arrayTest.filter(animal => animal.species == "Giraffe").filter(animal => animal.spacies == "Giraffe" && animal.observationActions.filter(action => action.name == "Peter")) // [test0, test2];
 
-arrayTest.filter(function (x) { return x.species == "Giraffe"; })
+arrayTest.filter(function (x) {
+    return x.species == "Giraffe";
+})
