@@ -12,9 +12,10 @@ def create_app():
 
     with app.app_context():
         # Imports
-        from application.routing import errors, missions
+        from application.routes import errors, missions
 
         # Create tables for our models
+        db.drop_all()
         db.create_all()
 
         return app

@@ -1,8 +1,8 @@
+from application.models.base import BaseModel
 from .. import db
 
 
-class Observation(db.Model):
-    id = db.Column(db.String(255), primary_key=True)
+class Observation(BaseModel):
     spotId = db.Column(db.String(255), db.ForeignKey('spot.id'), nullable=False)
     animalName = db.Column(db.String(255))
     sex = db.Column(db.String(255))
@@ -10,5 +10,5 @@ class Observation(db.Model):
     pregnancyGrade = db.Column(db.String(255))
 
 
-class Animal(db.Model):
-    id = db.Column(db.String(255), primary_key=True)
+class Animal(BaseModel):
+    dummy_todo_model = db.Column(db.String(255))

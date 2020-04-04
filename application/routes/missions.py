@@ -1,17 +1,18 @@
+import json
 from datetime import datetime
 
-from flask import current_app as app, request, jsonify
+from flask import current_app as app, request
 
 from application import db
-from application.exception import ApiException, Reason
+from application.exceptions import ApiException, Reason
 from application.models import Mission
 
 
 @app.route('/missions', methods=['GET'])
 def get_all_missions():
     missions = Mission.query.all()
-    missions_json = [mission.__dict__ for mission in missions]
-    return jsonify(missions_json)
+    missions_json = [mission.to_json() for mission in missions]
+    return json.dumps(missions_json)
 
 
 @app.route('/missions/<mission_id>', methods=['GET'])

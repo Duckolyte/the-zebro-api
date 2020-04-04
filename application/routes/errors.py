@@ -1,6 +1,6 @@
 from flask import current_app as app, jsonify
 
-from ..exception import InvalidUsage
+from ..exceptions import InvalidUsage
 
 
 @app.errorhandler(InvalidUsage)
