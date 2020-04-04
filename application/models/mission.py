@@ -9,8 +9,11 @@ class Mission(BaseModel):
     timeStamp = db.Column(db.DateTime)
     spots = db.relationship('Spot', backref='mission', lazy=True)
 
-    def __init__(self, mission_id):
-        self.id = mission_id
+    def __init__(self, userId, parcSection=None, timeStamp=None, *args, **kwargs):
+        super(Mission, self).__init__(*args, **kwargs)
+        self.userId = userId
+        self.parcSection = parcSection
+        self.timeStamp = timeStamp
 
 
 class MissionSchema(ma.Schema):

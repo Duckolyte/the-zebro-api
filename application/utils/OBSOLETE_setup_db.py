@@ -16,7 +16,7 @@ def random_date(start, end):
 # Method to setup DB with random records.
 def setup_db(db):
     # Setup User records.
-    random_user_ids = [uuid.uuid4() for i in range(5)]
+    random_user_ids = [str(uuid.uuid4()) for i in range(5)]
     # TODO create user db records
 
     # Setup missions records.
@@ -26,7 +26,7 @@ def setup_db(db):
 
     for i in range(10):
         new_mission = Mission(
-            id=uuid.uuid4(),
+            id=str(uuid.uuid4()),
             userId=random_user_ids[random.randint(0, 1)],
             parcSection=parc_sections[random.randint(0, 1)],
             timeStamp=random_date(d1, d2)
