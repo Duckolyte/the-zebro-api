@@ -1,0 +1,153 @@
+{
+  "info": {
+    "_postman_id": "4e9f443e-82dc-4e19-9182-e39435d1618b",
+    "name": "the-zebro-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GetAllMissions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/missions",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "missions"
+          ]
+        },
+        "description": "Requests all mission objects."
+      },
+      "response": []
+    },
+    {
+      "name": "GetMissionById",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/missions/11116875-0774-4b1b-a6d8-d33ac563f812",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "missions",
+            "11116875-0774-4b1b-a6d8-d33ac563f812"
+          ]
+        },
+        "description": "Requests a mission by using the missions id."
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateMissionById",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": \"61696875-0774-4b1b-a6d8-d33ac563f80c\",\n    \"parcSection\": \"H\",\n    \"spots\": [],\n    \"timeStamp\": \"2020-03-30 11:11:11\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/missions/61696875-0774-4b1b-a6d8-d33ac563f80c",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "missions",
+            "61696875-0774-4b1b-a6d8-d33ac563f80c"
+          ]
+        },
+        "description": "Updates a mission with the given mission id."
+      },
+      "response": []
+    },
+    {
+      "name": "CreateMission",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": \"41116875-0774-4b1b-a6d8-d33ac563f812\",\n    \"parcSection\": \"H\",\n    \"spots\": [],\n    \"timeStamp\": \"2009-05-30 16:54:29\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/missions/41116875-0774-4b1b-a6d8-d33ac563f812",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "missions",
+            "41116875-0774-4b1b-a6d8-d33ac563f812"
+          ]
+        },
+        "description": "PUT not POST operation for creating a mission.\nNeed to pass the id but is imdepotent.\nIf an error occurs i can send again and only an update occurs.\nPOST  can not be sent again."
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteMission",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/missions/31116875-0774-4b1b-a6d8-d33ac563f812",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "missions",
+            "31116875-0774-4b1b-a6d8-d33ac563f812"
+          ]
+        },
+        "description": "Delete a mission with the id given."
+      },
+      "response": []
+    }
+  ],
+  "protocolProfileBehavior": {}
+}
