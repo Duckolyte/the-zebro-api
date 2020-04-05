@@ -26,6 +26,17 @@ User seeds section.
 
 class UserUuidsContainer:
     def __init__(self, uuids):
+        """
+        This container class holds...
+
+        A list of uuids for users. When a user db record is inserted the inserted id
+        gets removed. Prevents unique constraint errors.
+
+        A copy of the uuids list for users. This list is used for the missions referencing
+        users by their id (uuid). Necessary because the foreign keys must match the
+        users ids at transaction commit.
+
+        """
         self.user_uuids_generated = uuids
         self.copy = uuids
 
