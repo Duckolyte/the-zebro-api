@@ -4,16 +4,23 @@ from .. import ma
 
 
 class Spot(BaseModel):
-    missionId = db.Column(db.String(255), db.ForeignKey('mission.id'), nullable=False)
+    missionId = db.Column(db.String(255), db.ForeignKey('mission.id'))  # TODO in the future should be nullable false
     observationQualityCode = db.Column(db.String(255))
     observationDateTime = db.Column(db.DateTime(timezone=True))
-    observations = db.relationship('Observation', backref='spot', lazy=True)
     gps = db.relationship('GpsPoint', backref='spot', lazy=True)
+    observations = db.relationship('Observation', backref='spot', lazy=True)
 
 
 class SpotSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'created_at', 'created_by', 'update_at', 'updated_by', 'userId', 'parcSection', 'timeStamp')
+        fields = ('id',
+                  'created_at',
+                  'created_by',
+                  'modified_at',
+                  'modified_by',
+                  'missionId',
+                  'observationQualityCode',
+                  'observationDateTime')
 
 
 spot_schema = SpotSchema()
@@ -22,13 +29,20 @@ spots_schema = SpotSchema(many=True)
 
 class GpsPoint(BaseModel):
     spotId = db.Column(db.String(255), db.ForeignKey('spot.id'), nullable=False)
-    x = db.Column(db.String(255))
-    y = db.Column(db.String(255))
+    lat = db.Column(db.String(255))
+    lon = db.Column(db.String(255))
 
 
 class GpsPointSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'created_at', 'created_by', 'update_at', 'updated_by', 'spotId', 'x', 'y')
+        fields = ('id',
+                  'created_at',
+                  'created_by',
+                  'modified_at',
+                  'modified_by',
+                  'spotId',
+                  'lat',
+                  'lon')
 
 
 gps_point_schema = SpotSchema()

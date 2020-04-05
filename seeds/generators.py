@@ -36,7 +36,32 @@ class UserUuid(Generator):
         return selected_uuid
 
 
+class RelationalPrimaryKey(Generator):
+    def __init__(self, uuid_container, **kwargs):
+        super().__init__(**kwargs)
+        self.uuid_container = uuid_container
+
+    def generate(self):
+        selected_uuid = self.uuid_container.user_uuids_generated[
+            self.rnd.randint(0, len(self.uuid_container.user_uuids_generated) - 1)
+        ]
+        self.uuid_container.user_uuids_generated.remove(selected_uuid)
+        return selected_uuid
+
+
 class ToUserUuid(Generator):
+    def __init__(self, uuid_container, **kwargs):
+        super().__init__(**kwargs)
+        self.uuid_container = uuid_container
+
+    def generate(self):
+        selected_uuid = self.uuid_container.copy[
+            self.rnd.randint(0, len(self.uuid_container.copy) - 1)
+        ]
+        return selected_uuid
+
+
+class RelationalForeignKey(Generator):
     def __init__(self, uuid_container, **kwargs):
         super().__init__(**kwargs)
         self.uuid_container = uuid_container

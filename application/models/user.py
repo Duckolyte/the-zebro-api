@@ -26,8 +26,18 @@ class User(BaseModel):
 
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'created_at', 'created_by', 'update_at', 'updated_by', 'first_name', 'second_name', 'last_name',
-                  'date_of_birth', 'user_name', 'email', 'password')
+        fields = ('id',
+                  'created_at',
+                  'created_by',
+                  'modified_at',
+                  'modified_by',
+                  'first_name',
+                  'second_name',
+                  'last_name',
+                  'date_of_birth',
+                  'user_name',
+                  'email',
+                  'password')
 
 
 user_schema = UserSchema()

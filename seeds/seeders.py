@@ -3,8 +3,9 @@ import random
 
 from flask_seeder import Seeder, Faker, generator
 
-from application.models import User
+from application.models import User, Spot
 from application.models.mission import Mission
+from application.models.spot import GpsPoint
 from seeds import generators
 
 """
@@ -24,7 +25,7 @@ User seeds section.
 """
 
 
-class UserUuidsContainer:
+class RelationalPrimaryKeyContainer:
     def __init__(self, uuids):
         """
         This container class holds...
@@ -37,12 +38,21 @@ class UserUuidsContainer:
         users ids at transaction commit.
 
         """
-        self.user_uuids_generated = uuids
-        self.copy = uuids
+        self.user_uuids_generated = uuids[:]
+        self.copy = uuids[:]
 
 
 gen_user_uuids = [generators.Uuid().generate() for i in range(5)]
-user_uuids_container = UserUuidsContainer(gen_user_uuids)
+user_uuids_container = RelationalPrimaryKeyContainer(uuids=gen_user_uuids)
+
+gen_mission_uuids = [generators.Uuid().generate() for i in range(10)]
+mission_uuids_container = RelationalPrimaryKeyContainer(uuids=gen_mission_uuids)
+
+gen_spot_uuids = [generators.Uuid().generate() for i in range(10)]
+spot_uuids_container = RelationalPrimaryKeyContainer(uuids=gen_spot_uuids)
+
+gen_gps_uuids = [generators.Uuid().generate() for i in range(10)]
+gps_uuids_container = RelationalPrimaryKeyContainer(uuids=gen_gps_uuids)
 
 random_first_names = [generator.Name().generate() for i in range(10)]
 random_last_names = [generator.Name().generate() for i in range(10)]
@@ -72,7 +82,7 @@ class UserSeeder(Seeder):
                     last_names=random_last_names
                 ),
                 'password': generators.GenericListItem(generic_list=rock_solid_passwords),
-                'id': generators.UserUuid(user_uuids_container)
+                'id': generators.RelationalPrimaryKey(user_uuids_container)
             }
         )
 
@@ -93,18 +103,66 @@ d2 = datetime.datetime.strptime('2020-04-01 11:11:11', '%Y-%m-%d %H:%M:%S')
 class MissionSeeder(Seeder):
 
     def run(self):
-        # Create a new Faker and tell it how to create User objects
         faker = Faker(
             cls=Mission,
             init={
-                'userId': generators.ToUserUuid(user_uuids_container),
+                'userId': generators.RelationalForeignKey(user_uuids_container),
                 'parcSection': generators.GenericListItem(generic_list=parc_sections),
                 'timeStamp': generators.DateTime(start_date=d1, end_date=d2),
-                'id': generators.Uuid(),
+                'id': generators.RelationalPrimaryKey(mission_uuids_container)
             }
         )
 
-        # Create 5 users
         for mission in faker.create(10):
             print("Adding mission: %s" % mission)
             self.db.session.add(mission)
+
+
+"""
+Spots seeds section.
+"""
+obs_quality_codes = ['A', 'B', 'C', 'D']
+obs_date_start = datetime.datetime.strptime('2019-01-01 11:11:11', '%Y-%m-%d %H:%M:%S')
+obs_date_end = datetime.datetime.strptime('2020-04-01 11:11:11', '%Y-%m-%d %H:%M:%S')
+
+
+class SpotSeeder(Seeder):
+
+    def run(self):
+        faker = Faker(
+            cls=Spot,
+            init={
+                'missionId': generators.RelationalForeignKey(mission_uuids_container),
+                'observationQualityCode': generators.GenericListItem(generic_list=obs_quality_codes),
+                'observationDateTime': generators.DateTime(start_date=obs_date_start, end_date=obs_date_end),
+                'id': generators.RelationalPrimaryKey(spot_uuids_container)
+            }
+        )
+
+        for spot in faker.create(10):
+            print("Adding spot: %s" % spot)
+            self.db.session.add(spot)
+
+
+"""
+Gps seeds section.
+"""
+gps_lat_lon = ['52.518611', '13.376111', '48.208031', '16.358128', '13.380000', '52.520000']
+
+
+class GpsPointSeeder(Seeder):
+
+    def run(self):
+        faker = Faker(
+            cls=GpsPoint,
+            init={
+                'spotId': generators.RelationalForeignKey(spot_uuids_container),
+                'lat': generators.GenericListItem(gps_lat_lon),
+                'lon': generators.GenericListItem(gps_lat_lon),
+                'id': generators.RelationalPrimaryKey(gps_uuids_container)
+            }
+        )
+
+        for gps in faker.create(10):
+            print("Adding gps: %s" % gps)
+            self.db.session.add(gps)

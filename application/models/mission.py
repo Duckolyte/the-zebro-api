@@ -18,7 +18,14 @@ class Mission(BaseModel):
 
 class MissionSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'created_at', 'created_by', 'update_at', 'updated_by', 'userId', 'parcSection', 'timeStamp')
+        fields = ('id',
+                  'created_at',
+                  'created_by',
+                  'modified_at',
+                  'modified_by',
+                  'userId',
+                  'parcSection',
+                  'timeStamp')
 
 
 mission_schema = MissionSchema()

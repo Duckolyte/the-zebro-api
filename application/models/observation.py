@@ -4,7 +4,7 @@ from .. import ma
 
 
 class Observation(BaseModel):
-    spotId = db.Column(db.String(255), db.ForeignKey('spot.id'), nullable=False)
+    spotId = db.Column(db.String(255), db.ForeignKey('spot.id'))  # TODO in the future should be nullable false
     animalName = db.Column(db.String(255))
     sex = db.Column(db.String(255))
     age = db.Column(db.String(255))
@@ -13,7 +13,15 @@ class Observation(BaseModel):
 
 class ObservationSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'created_at', 'created_by', 'update_at', 'updated_by', 'spotId', 'animalName', 'sex', 'age',
+        fields = ('id',
+                  'created_at',
+                  'created_by',
+                  'modified_at',
+                  'modified_by',
+                  'spotId',
+                  'animalName',
+                  'sex',
+                  'age',
                   'pregnancyGrade')
 
 
