@@ -3,9 +3,6 @@ import uuid
 
 from flask_seeder.generator import Generator
 
-UserUuidsGenerated = []
-MissionUuidsGenerated = []
-
 
 class GenericListItem(Generator):
     def __init__(self, generic_list, **kwargs):
@@ -17,24 +14,58 @@ class GenericListItem(Generator):
         return result
 
 
+class Uuid(Generator):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def generate(self):
+        gen_uuid = str(uuid.uuid4())
+        return gen_uuid
+
+
 class UserUuid(Generator):
-    def __init__(self, **kwargs):
+    def __init__(self, uuid_container, **kwargs):
         super().__init__(**kwargs)
+        self.uuid_container = uuid_container
 
     def generate(self):
-        gen_uuid = str(uuid.uuid4())
-        UserUuidsGenerated.append(gen_uuid)
-        return gen_uuid
+        selected_uuid = self.uuid_container.user_uuids_generated[
+            self.rnd.randint(0, len(self.uuid_container.user_uuids_generated) - 1)
+        ]
+        self.uuid_container.user_uuids_generated.remove(selected_uuid)
+        return selected_uuid
 
 
-class MissionUuid(Generator):
-    def __init__(self, **kwargs):
+class ToUserUuid(Generator):
+    def __init__(self, uuid_container, **kwargs):
         super().__init__(**kwargs)
+        self.uuid_container = uuid_container
 
     def generate(self):
-        gen_uuid = str(uuid.uuid4())
-        MissionUuidsGenerated.append(gen_uuid)
-        return gen_uuid
+        selected_uuid = self.uuid_container.copy[
+            self.rnd.randint(0, len(self.uuid_container.copy) - 1)
+        ]
+        return selected_uuid
+
+
+# class UserUuid(Generator):
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
+#
+#     def generate(self):
+#         gen_uuid = str(uuid.uuid4())
+#         UserUuidsGenerated.append(gen_uuid)
+#         return gen_uuid
+#
+#
+# class MissionUuid(Generator):
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
+#
+#     def generate(self):
+#         gen_uuid = str(uuid.uuid4())
+#         MissionUuidsGenerated.append(gen_uuid)
+#         return gen_uuid
 
 
 # class UuidFromReferenceList(Generator):

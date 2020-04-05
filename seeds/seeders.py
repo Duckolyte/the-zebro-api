@@ -22,9 +22,21 @@ def random_date(start, end):
 """
 User seeds section.
 """
+
+
+class UserUuidsContainer:
+    def __init__(self, uuids):
+        self.user_uuids_generated = uuids
+        self.copy = uuids
+
+
+gen_user_uuids = [generators.Uuid().generate() for i in range(5)]
+user_uuids_container = UserUuidsContainer(gen_user_uuids)
+
 random_first_names = [generator.Name().generate() for i in range(10)]
 random_last_names = [generator.Name().generate() for i in range(10)]
 random_user_names = [generator.Name().generate() for i in range(10)]
+
 rock_solid_passwords = ['12345', 'admin']
 date_of_birth_start = datetime.datetime.strptime('2019-01-01 11:11:11', '%Y-%m-%d %H:%M:%S')
 date_of_birth_end = datetime.datetime.strptime('2020-04-01 11:11:11', '%Y-%m-%d %H:%M:%S')
@@ -49,7 +61,7 @@ class UserSeeder(Seeder):
                     last_names=random_last_names
                 ),
                 'password': generators.GenericListItem(generic_list=rock_solid_passwords),
-                'id': generators.UserUuid()
+                'id': generators.UserUuid(user_uuids_container)
             }
         )
 
@@ -65,7 +77,6 @@ Mission seeds section.
 parc_sections = ['H', 'M']
 d1 = datetime.datetime.strptime('2019-01-01 11:11:11', '%Y-%m-%d %H:%M:%S')
 d2 = datetime.datetime.strptime('2020-04-01 11:11:11', '%Y-%m-%d %H:%M:%S')
-generated_user_ids = generators.UserUuidsGenerated
 
 
 class MissionSeeder(Seeder):
@@ -75,10 +86,10 @@ class MissionSeeder(Seeder):
         faker = Faker(
             cls=Mission,
             init={
-                'userId': generators.GenericListItem(generic_list=generated_user_ids),
+                'userId': generators.ToUserUuid(user_uuids_container),
                 'parcSection': generators.GenericListItem(generic_list=parc_sections),
                 'timeStamp': generators.DateTime(start_date=d1, end_date=d2),
-                'id': generators.MissionUuid(),
+                'id': generators.Uuid(),
             }
         )
 
