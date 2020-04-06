@@ -4,8 +4,6 @@ REST API to the zebro project.
 
 ### Seed the database. 
 
-To seed the db tables with random data use the following command.
-
 ```
 set FLASK_APP=run.py
 flask seed run

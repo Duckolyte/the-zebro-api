@@ -3,7 +3,7 @@ import random
 
 from flask_seeder import Seeder, Faker, generator
 
-from application.models import User, Spot
+from application.models import User, Spot, Observation
 from application.models.mission import Mission
 from application.models.spot import GpsPoint
 from seeds import generators
@@ -40,6 +40,10 @@ class RelationalPrimaryKeyContainer:
         """
         self.user_uuids_generated = uuids[:]
         self.copy = uuids[:]
+        self.original_list_length = len(uuids)
+
+    def container_list_length(self):
+        return self.original_list_length
 
 
 gen_user_uuids = [generators.Uuid().generate() for i in range(5)]
@@ -48,11 +52,14 @@ user_uuids_container = RelationalPrimaryKeyContainer(uuids=gen_user_uuids)
 gen_mission_uuids = [generators.Uuid().generate() for i in range(10)]
 mission_uuids_container = RelationalPrimaryKeyContainer(uuids=gen_mission_uuids)
 
-gen_spot_uuids = [generators.Uuid().generate() for i in range(10)]
+gen_spot_uuids = [generators.Uuid().generate() for i in range(15)]
 spot_uuids_container = RelationalPrimaryKeyContainer(uuids=gen_spot_uuids)
 
-gen_gps_uuids = [generators.Uuid().generate() for i in range(10)]
+gen_gps_uuids = [generators.Uuid().generate() for i in range(15)]
 gps_uuids_container = RelationalPrimaryKeyContainer(uuids=gen_gps_uuids)
+
+gen_observation_uuids = [generators.Uuid().generate() for i in range(30)]
+observation_uuids_container = RelationalPrimaryKeyContainer(uuids=gen_observation_uuids)
 
 random_first_names = [generator.Name().generate() for i in range(10)]
 random_last_names = [generator.Name().generate() for i in range(10)]
@@ -87,7 +94,7 @@ class UserSeeder(Seeder):
         )
 
         # Create 5 users
-        for user in faker.create(5):
+        for user in faker.create(user_uuids_container.container_list_length()):
             print("Adding user: %s" % user)
             self.db.session.add(user)
 
@@ -113,7 +120,7 @@ class MissionSeeder(Seeder):
             }
         )
 
-        for mission in faker.create(10):
+        for mission in faker.create(mission_uuids_container.container_list_length()):
             print("Adding mission: %s" % mission)
             self.db.session.add(mission)
 
@@ -139,7 +146,7 @@ class SpotSeeder(Seeder):
             }
         )
 
-        for spot in faker.create(10):
+        for spot in faker.create(spot_uuids_container.container_list_length()):
             print("Adding spot: %s" % spot)
             self.db.session.add(spot)
 
@@ -163,6 +170,34 @@ class GpsPointSeeder(Seeder):
             }
         )
 
-        for gps in faker.create(10):
+        for gps in faker.create(gps_uuids_container.container_list_length()):
             print("Adding gps: %s" % gps)
             self.db.session.add(gps)
+
+
+"""
+Observation seeds section.
+"""
+sex_enum = ['M', 'F', 'None']
+age_enum = ['F', 'A', 'SA']
+pregnancy_grade_enum = ['p', 'p?', 'None']
+
+
+class ObservationSeeder(Seeder):
+
+    def run(self):
+        faker = Faker(
+            cls=Observation,
+            init={
+                'spotId': generators.RelationalForeignKey(spot_uuids_container),
+                'animalName': generator.Name(),
+                'sex': generators.GenericListItem(sex_enum),
+                'age': generators.GenericListItem(age_enum),
+                'pregnancyGrade': generators.GenericListItem(pregnancy_grade_enum),
+                'id': generators.RelationalPrimaryKey(observation_uuids_container)
+            }
+        )
+
+        for observation in faker.create(observation_uuids_container.container_list_length()):
+            print("Adding observation: %s" % observation)
+            self.db.session.add(observation)
