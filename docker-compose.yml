@@ -1,0 +1,7 @@
+version: "3.7"
+
+services:
+  zebro:
+    image: "zebro:latest"
+    ports:
+      - "8080:8080"

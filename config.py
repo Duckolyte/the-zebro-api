@@ -11,5 +11,5 @@ class Config:
 
     # Database
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///../model.db'
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:ag12982846@localhost/zebro'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:ag12982846@192.168.176.1:3306/zebro'
     SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -11,32 +11,33 @@ flask seed run
 
 ##### TODO 
 
+1.
+create a unit-test branch and implement unit tests.
+
+2. 
+Create logging branch and implement logging.
+Log in the Exception route.
+How to log from container out to local host file system?
+
+3. Create requirements.txt file for ease of install.
 List of the pypi packages.
-```
-astroid                2.3.3
-click                  7.1.1
-colorama               0.4.3
-dnspython              1.16.0
-Flask                  1.1.1
-flask-marshmallow      0.11.0
-Flask-Seeder           1.1.1
-Flask-SQLAlchemy       2.4.1
-isort                  4.3.21
-itsdangerous           1.1.0
-Jinja2                 2.11.1
-lazy-object-proxy      1.4.3
-MarkupSafe             1.1.1
-marshmallow            3.5.1
-mccabe                 0.6.1
-mysql-connector-python 8.0.19
-mysqlclient            1.4.6
-pip                    19.2.3
-protobuf               3.6.1
-pylint                 2.4.4
-PyMySQL                0.9.3
-setuptools             41.2.0
-six                    1.14.0
-SQLAlchemy             1.3.15
-Werkzeug               1.0.1
-wrapt                  1.11.2
-```
+
+###Partwise done
+4. Create a docker-containerization branch and implement docker file.
+https://docker-py.readthedocs.io/en/stable/client.html
+https://www.youtube.com/watch?v=IZmlkoOO8Mg&t=397s @see 10:30
+
+Done: <br>Setup Dockerfile and compose file.
+Run docker with 
+
+````
+cd docker
+python compose.py
+````
+
+ Todo: <br>
+ At moment throws an error. Reason is the trial to connect to the local mysql database.  
+ 1. 
+ Configure the container so it can access a local db. 
+ 2. 
+ Then install the mysql db on the remote host fatality z and connect to this db.
