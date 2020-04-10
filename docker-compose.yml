@@ -2,6 +2,6 @@ version: "3.7"
 
 services:
   zebro:
-    image: "zebro:latest"
+    build: .
     ports:
-      - "8080:8080"
+      - "5000:5000"

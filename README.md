@@ -31,8 +31,8 @@ Done: <br>Setup Dockerfile and compose file.
 Run docker with 
 
 ````
-cd docker
-python compose.py
+# create the zebro image and run the container exposing on port 5000.
+docker-compose up
 ````
 
  Todo: <br>
