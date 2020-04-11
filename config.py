@@ -1,4 +1,8 @@
 from os import environ
+try:
+    import config_properties as properties
+except ImportError:
+    pass
 
 
 class Config:
@@ -11,13 +15,14 @@ class Config:
     FLASK_ENV = environ.get('FLASK_ENV')
 
     # Database
-
     # The ssqllite document db.
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///../model.db'
 
     # The local myssql db.
-    # SQLALCHEMY_DATABASE_URI = 'mysql://zebro:ag12982846@192.168.176.1:3306/zebro'
+    # SQLALCHEMY_DATABASE_URI = ''
 
     # The Fatality board host db.
-    SQLALCHEMY_DATABASE_URI = 'mysql://zebro:ag12982846@192.168.0.107:3306/zebro'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI = properties.SQLALCHEMY_DATABASE_URI
+    SQLALCHEMY_TRACK_MODIFICATIONS = properties.SQLALCHEMY_TRACK_MODIFICATIONS
+
+
